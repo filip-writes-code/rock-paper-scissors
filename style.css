@@ -1,0 +1,43 @@
+body {
+    display: flex;
+    padding-top: 30vh;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    background-color: aliceblue;
+    gap: 30px;
+}
+
+.container {
+    display: flex;
+    gap: 25px;
+}
+
+h1 {
+    font-family: "Roboto";
+    font-weight: 700;
+    margin: 0;
+}
+
+button {
+    font-family: Roboto, sans-serif;
+    border: none;
+    border-radius: 8px;
+    background: #eee;
+    padding: 20px;
+    min-width: 100px;
+}
+
+.gameInfo {   
+    display: flex;
+    flex-direction: column;
+    white-space: pre;
+    text-align: center;
+    gap: 25px;
+    font-family: 'Roboto';
+    font-weight: 300;
+}
+
+.result {
+    font-weight: 900;
+}

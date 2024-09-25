@@ -9,15 +9,16 @@ function getComputerChoice () {
     }
     }
 
-function getHumanChoice() {
-    let humanPick = prompt("Rock, Paper, Scissors, GO!");
-    humanPick = humanPick.toLowerCase();
-    if (humanPick === 'rock' || humanPick === 'paper' || humanPick === 'scissors') {
-    return humanPick;
-    } else {
-    return getHumanChoice();
-    }
-        }
+    //cold console prompt
+// function getHumanChoice() {
+//     let humanPick = prompt("Rock, Paper, Scissors, GO!");
+//     humanPick = humanPick.toLowerCase();
+//     if (humanPick === 'rock' || humanPick === 'paper' || humanPick === 'scissors') {
+//     return humanPick;
+//     } else {
+//     return getHumanChoice();
+//     }
+//         }
 
 function roundWinner (pickOne, pickTwo) {
     switch (pickOne) {
@@ -56,90 +57,154 @@ function roundWinner (pickOne, pickTwo) {
 
 let humanScore = 0;
 let computerScore = 0;
+let roundCounter = 0;
 
-function playRound(humanSelection, computerSelection) {
-    
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    
-    console.log(
-`Human picks: ${humanSelection}
-Computer picks: ${computerSelection}`
-    );
+const gameInfo = document.querySelector(".gameInfo");
+const roundText = document.querySelector(".round");
+const picksText = document.querySelector(".picks");
+const resultText = document.querySelector(".result");
+const scoreText = document.querySelector(".score");
+const gameOverText = document.querySelector(".gameOver");
 
+function showResetButton() {
+    const resetButton = document.createElement('button');
+    resetButton.id = "resetButton";
+    resetButton.textContent = "Play Again?";
+    gameInfo.appendChild(resetButton);
+}
+
+function resetGame () {
+    humanScore = 0;
+    computerScore = 0;
+    roundCounter = 0;
+    roundText.textContent = '';
+    picksText.textContent = "";
+    resultText.textContent = "Pick a hand...";
+    scoreText.textContent = "";
+    gameOverText.textContent = "";
+    document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+
+}
+
+function playRound(humanSelection) {
+    roundCounter++;
+    const computerSelection = getComputerChoice();
     let winner = roundWinner(humanSelection, computerSelection);
+    
     switch (winner) {
     case 0: 
-        console.log("Tie! Let's go again");
+        picksText.textContent = "You picked: " + humanSelection + "\n" + "AI picked: " + computerSelection;
+        resultText.textContent = "Tie! Let's go again";
         break;  
     case 1:
-        console.log("You win! " + humanSelection + " beats " + computerSelection);
+        picksText.textContent = "You picked: " + humanSelection + "\n" + "AI picked: " + computerSelection;
+        resultText.textContent = "You win!";
         humanScore++;
         break;  
     case 2:
-        console.log("You lose! " + computerSelection + " beats " + humanSelection);
+        picksText.textContent = "You picked: " + humanSelection + "\n" + "AI picked: " + computerSelection;
+        resultText.textContent = "You lose!";
         computerScore++;
         break;
+    }
+    roundText.textContent = "Round " + roundCounter;
+    scoreText.textContent = "Human Score: " + humanScore + "\n" + "AI Score: " + computerScore;
+
+    if (humanScore === 5) {
+        picksText.textContent = "";
+        resultText.textContent = "";
+        gameOverText.textContent = "You win the game!";
+        document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+        showResetButton();
+    } else if (computerScore === 5){ 
+        picksText.textContent = "";
+        resultText.textContent = "";
+        gameOverText.textContent = "You lose the game!";
+        document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+        showResetButton();
     }
 }
 
 
 
-function playGame() {
-    humanScore = 0;
-    computerScore = 0;
-    console.log("Here we go folks! Round 1");
+//old function
+// function playGame() {
+//     humanScore = 0;
+//     computerScore = 0;
+//     console.log("Here we go folks! Round 1");
     
-    playRound();
-    console.log
-    (`
-Round 1:
-Human score:  ${humanScore}
-Computer score: ${computerScore}
-`)
+//     playRound();
+//     console.log
+//     (`
+// Round 1:
+// Human score:  ${humanScore}
+// Computer score: ${computerScore}
+// `)
 
-console.log("Round 2");
+// console.log("Round 2");
     
-    playRound();
-    console.log
-    (`
-Round 2:
-Human score:  ${humanScore}
-Computer score: ${computerScore}
-`)
+//     playRound();
+//     console.log
+//     (`
+// Round 2:
+// Human score:  ${humanScore}
+// Computer score: ${computerScore}
+// `)
 
-console.log("Round 3. Two more to go!");
+// console.log("Round 3. Two more to go!");
     
-    playRound();
-    console.log
-    (`
-Round 3:
-Human score:  ${humanScore}
-Computer score: ${computerScore}
-`)
+//     playRound();
+//     console.log
+//     (`
+// Round 3:
+// Human score:  ${humanScore}
+// Computer score: ${computerScore}
+// `)
 
-console.log("Round 4. Nailbitter...");
+// console.log("Round 4. Nailbitter...");
     
-    playRound();
-    console.log
-    (`
-Round 4:
-Human score:  ${humanScore}
-Computer score: ${computerScore}
-`)
+//     playRound();
+//     console.log
+//     (`
+// Round 4:
+// Human score:  ${humanScore}
+// Computer score: ${computerScore}
+// `)
 
-console.log("Here it is.. The final Round");
+// console.log("Here it is.. The final Round");
     
-    playRound();
-    console.log
-    (`
-Game over folks.
-Human score:  ${humanScore}
-Computer score: ${computerScore}
-`)
+//     playRound();
+//     console.log
+//     (`
+// Game over folks.
+// Human score:  ${humanScore}
+// Computer score: ${computerScore}
+// `)
+// }
 
-}
 
+//old stuff
+// function writeResult(result) {
+//     const resultOutput = document.querySelector('.results');
+//     resultOutput.textContent = result;
+// }
 
+//event listener for the buttons
+const btn = document.querySelector('.container');
+btn.addEventListener('click', (e) => {
+    if (e.target.nodeName === 'BUTTON') {
+        const pick = e.target.id;
+    playRound(pick);
+    }
+});
+
+//event listener for reset button
+const reset = document.querySelector('.gameInfo');
+reset.addEventListener('click', (e) => {
+    if (e.target.nodeName === "BUTTON") {
+        resetGame();
+        e.target.remove();
+    }
+})
 
 
